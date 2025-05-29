@@ -12,17 +12,26 @@ export default function Navbar() {
   const [userName, setUserName] = useState("");
   const [UserImage, setUserImage] = useState("");
 
+  // on route change, read initial values
   useEffect(() => {
     const isAuth = localStorage.getItem("isAuthenticated") === "true";
     setAuth(isAuth);
     if (isAuth) {
-      const fullName = localStorage.getItem("fullName");
-      setUserName(fullName || "");
+      setUserName(localStorage.getItem("fullName") || "");
+      setUserImage(localStorage.getItem("UserImage") || "");
     }
-    if (isAuth) {
-      const UserImage = localStorage.getItem("UserImage");
-      setUserImage(UserImage || "");
-    }
+  }, [pathname]);
+
+  // listen for profile‐update events
+  useEffect(() => {
+    const onProfileUpdate = () => {
+      setUserName(localStorage.getItem("fullName") || "");
+      setUserImage(localStorage.getItem("UserImage") || "");
+    };
+    window.addEventListener("userProfileUpdated", onProfileUpdate);
+    return () => {
+      window.removeEventListener("userProfileUpdated", onProfileUpdate);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -30,7 +39,7 @@ export default function Navbar() {
     localStorage.removeItem("fullName");
     localStorage.removeItem("email");
     localStorage.removeItem("userId");
-    localStorage.removeItem("image");
+    localStorage.removeItem("UserImage");
     setAuth(false);
     navigate("/login");
   };
@@ -47,10 +56,10 @@ export default function Navbar() {
       <div className="container-xl mx-auto flex items-center justify-between lg:justify-start gap-4 lg:gap-10 p-4">
         {/* Branding */}
         <Link to="/" className="flex items-center space-x-2">
-          <img src="logo.w.svg" alt="Logo" className="h-10  " />
+          <img src="logo.w.svg" alt="Logo" className="h-10" />
         </Link>
 
-        {/* Desktop nav links */}
+        {/* Desktop links */}
         <div className="hidden lg:flex space-x-4">
           <Link to="/" className={linkClass("/")}>
             Home
@@ -60,43 +69,34 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Desktop auth links (Login/Register or User + Logout) */}
+        {/* Auth / Profile */}
         <div className="hidden lg:flex items-center space-x-4 ml-auto">
           {!auth ? (
             <>
               <Link
                 to="/register"
-                className="block px-6 py-3 font-medium rounded-md transition bg-white text-black hover:bg-neutral-200 hover:text-neutral-800 hover:scale-101"
+                className="px-6 py-3 font-medium rounded-md bg-white text-black hover:bg-neutral-200"
               >
                 Register
               </Link>
               <Link
                 to="/login"
-                className="block px-6 py-3 font-medium rounded-md transition bg-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 text-white hover:scale-101"
+                className="px-6 py-3 font-medium rounded-md bg-neutral-600 hover:bg-neutral-100 hover:text-neutral-900"
               >
                 Login
               </Link>
             </>
           ) : (
             <>
-              <span className="block  py-3 font-medium text-white">
-                {userName}
-              </span>
+              <span className="py-3 font-medium">{userName}</span>
               <Link to="/profile">
                 <img
                   src={UserImage}
-                  class="img-fluid rounded-top"
-                  alt=""
-                  className="h-10"
+                  alt="Profile"
+                  className="h-10 rounded-full object-cover"
                 />
               </Link>
-
-              {/* <button
-                onClick={handleLogout}
-                className="block px-6 py-3 font-medium rounded-md text-white border border-white hover:bg-white hover:text-black"
-              >
-                Logout
-              </button> */}
+              {/* your logout button if you re-enable it */}
             </>
           )}
         </div>
@@ -136,46 +136,32 @@ export default function Navbar() {
             </Link>
           </li>
         </ul>
-
-        {/* Mobile auth row */}
         <div className="flex justify-center space-x-4 py-2">
           {!auth ? (
             <>
               <Link
                 to="/register"
                 onClick={() => setMenuOpen(false)}
-                className="block px-6 py-3 font-medium rounded-md transition bg-white text-black"
+                className="px-6 py-3 font-medium rounded-md bg-white text-black"
               >
                 Register
               </Link>
               <Link
                 to="/login"
                 onClick={() => setMenuOpen(false)}
-                className="block px-6 py-3 font-medium rounded-md transition bg-neutral-300 text-black"
+                className="px-6 py-3 font-medium rounded-md bg-neutral-300 text-black"
               >
                 Login
               </Link>
             </>
           ) : (
             <>
-              <span className="px-3 py-3 font-medium text-white">
-                {userName}
-              </span>
+              <span className="px-3 py-3 font-medium">{userName}</span>
               <img
                 src={UserImage}
-                class="img-fluid rounded-top"
-                alt=""
-                className="h-10"
+                alt="Profile"
+                className="h-10 rounded-full"
               />
-              {/* <button
-                onClick={() => {
-                  handleLogout();
-                  setMenuOpen(false);
-                }}
-                className="px-6 py-3 font-medium rounded-md text-white border border-white hover:bg-white hover:text-black"
-              >
-                Logout
-              </button> */}
             </>
           )}
         </div>
