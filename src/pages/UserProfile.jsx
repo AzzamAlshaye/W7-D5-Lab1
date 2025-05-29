@@ -18,7 +18,7 @@ export default function Profile() {
   });
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // ← new
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (!userId) {
@@ -31,7 +31,12 @@ export default function Profile() {
       .get(`${API_URL}/${userId}`)
       .then((res) => {
         const { fullName, email, password, UserImage } = res.data;
-        setFormData({ fullName, email, password, UserImage });
+        setFormData({
+          fullName,
+          email,
+          password,
+          UserImage: UserImage || "",
+        });
       })
       .catch(() => {
         toast.error("Failed to load profile.");
@@ -48,8 +53,24 @@ export default function Profile() {
     e.preventDefault();
     setSubmitting(true);
 
+    // Default to placeholder SVG if empty, otherwise validate URL
+    let imageURL = formData.UserImage.trim();
+    if (!imageURL) {
+      imageURL = "User_profile.svg";
+    } else {
+      try {
+        new URL(imageURL);
+      } catch {
+        toast.error("Please enter a valid URL for the profile image.");
+        setSubmitting(false);
+        return;
+      }
+    }
+
+    const payload = { ...formData, UserImage: imageURL };
+
     axios
-      .put(`${API_URL}/${userId}`, formData)
+      .put(`${API_URL}/${userId}`, payload)
       .then((res) => {
         const { fullName, email, UserImage } = res.data;
         localStorage.setItem("fullName", fullName);
@@ -131,7 +152,7 @@ export default function Profile() {
         <div className="relative">
           <label className="block mb-1 font-medium">Password</label>
           <input
-            type={showPassword ? "text" : "password"} // ← toggles type
+            type={showPassword ? "text" : "password"}
             name="password"
             value={formData.password}
             onChange={handleChange}
