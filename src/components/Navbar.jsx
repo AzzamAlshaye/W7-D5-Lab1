@@ -155,11 +155,13 @@ export default function Navbar() {
           ) : (
             <>
               <span className="px-3 py-3 font-medium">{userName}</span>
-              <img
-                src={UserImage}
-                alt="Profile"
-                className="  w-10 h-10 rounded-full object-contain  border-2 border-white shadow-sm"
-              />
+              <Link to="/profile">
+                <img
+                  src={UserImage}
+                  alt="Profile"
+                  className="w-10 h-10 rounded-full object-contain border"
+                />
+              </Link>
             </>
           )}
         </div>
