@@ -1,36 +1,35 @@
-// src/components/Footer.jsx
 import React from "react";
 import { Link } from "react-router";
 import { FaTwitter, FaDiscord, FaGithub } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="bg-neutral-800 text-neutral-200">
+    <footer className="bg-teal-600 text-white">
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Brand & Social */}
         <div className="space-y-6">
           <div className="flex items-center space-x-3">
             <img
               src="logo.w.svg"
-              alt="Rick and Morty icon"
+              alt="The Characters API logo"
               className="h-10 w-auto"
             />
-            <h3 className="text-2xl font-bold text-neutral-200">
+            <h3 className="text-2xl font-bold text-white">
               The Characters API
             </h3>
           </div>
-          <p className="text-neutral-400">
-            This Website showcases characters from Different Media.
+          <p className="text-teal-200">
+            This website showcases characters from different media.
           </p>
           <div className="flex space-x-4">
             {[FaTwitter, FaDiscord, FaGithub].map((Icon, i) => (
               <a
                 key={i}
                 href="#"
-                className="p-2 bg-neutral-200 rounded-full hover:bg-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-400 transition"
+                className="p-2 bg-white rounded-full hover:bg-teal-100 focus:outline-none focus:ring-2 focus:ring-teal-200 transition"
                 aria-label="social link"
               >
-                <Icon className="text-neutral-900 text-xl" />
+                <Icon className="text-teal-600 text-xl" />
               </a>
             ))}
           </div>
@@ -38,9 +37,7 @@ export default function Footer() {
 
         {/* Quick Links */}
         <div>
-          <h4 className="text-xl font-semibold text-neutral-200 mb-4">
-            Quick Links
-          </h4>
+          <h4 className="text-xl font-semibold text-white mb-4">Quick Links</h4>
           <ul className="space-y-2">
             {[
               { label: "Home", to: "/" },
@@ -49,7 +46,7 @@ export default function Footer() {
               <li key={link.to}>
                 <Link
                   to={link.to}
-                  className="text-neutral-400 hover:text-neutral-200 transition focus:outline-none focus:underline"
+                  className="text-teal-200 hover:text-white transition focus:outline-none focus:underline"
                 >
                   {link.label}
                 </Link>
@@ -60,14 +57,14 @@ export default function Footer() {
 
         {/* Contact Info */}
         <div>
-          <h4 className="text-xl font-semibold text-neutral-200 mb-4">
+          <h4 className="text-xl font-semibold text-white mb-4">
             Get in Touch
           </h4>
           <p>
-            <strong className="text-neutral-200">Email:&nbsp;</strong>
+            <strong className="text-white">Email:&nbsp;</strong>
             <a
               href="mailto:info@CharactersAPI"
-              className="text-neutral-400 hover:text-neutral-200 transition focus:outline-none focus:underline"
+              className="text-teal-200 hover:text-white transition focus:outline-none focus:underline"
             >
               info@CharactersAPI
             </a>
@@ -76,8 +73,8 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-neutral-700">
-        <div className="max-w-7xl mx-auto px-6 py-4 text-center text-sm text-neutral-400">
+      <div className="border-t border-teal-500">
+        <div className="max-w-7xl mx-auto px-6 py-4 text-center text-sm text-teal-200">
           &copy; 2025 The Characters API. All rights reserved.
         </div>
       </div>

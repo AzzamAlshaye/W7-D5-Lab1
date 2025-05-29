@@ -1,4 +1,3 @@
-// src/pages/LoginPage.jsx
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useNavigate, Link } from "react-router";
@@ -39,7 +38,7 @@ export default function LoginPage() {
           localStorage.setItem("fullName", user.fullName);
           localStorage.setItem("email", user.email);
           localStorage.setItem("userId", user.id);
-          localStorage.setItem("UserImage", user.image);
+          localStorage.setItem("UserImage", user.UserImage);
 
           toast.success("Login successful! Redirecting to home…");
           setTimeout(() => navigate("/"), 3000);
@@ -56,15 +55,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-900 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-teal-50 p-6">
       <ToastContainer position="top-center" />
-      <div className="bg-neutral-200 shadow-2xl rounded-3xl max-w-md w-full p-8">
+      <div className="bg-white shadow-2xl rounded-3xl max-w-md w-full p-8">
         <img
-          src="logo.svg"
-          alt=""
-          className="h-30 flex justify-center items-center w-full"
+          src="logo-theme.svg"
+          alt="Logo"
+          className="h-30 w-full object-contain mb-6"
         />
-        <h2 className="text-3xl font-bold text-neutral-900 mb-6 text-center">
+        <h2 className="text-3xl font-bold text-teal-600 mb-6 text-center">
           Log In
         </h2>
 
@@ -78,7 +77,7 @@ export default function LoginPage() {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-neutral-800 font-medium mb-1"
+                  className="block text-teal-700 font-medium mb-1"
                 >
                   Email Address
                 </label>
@@ -86,7 +85,7 @@ export default function LoginPage() {
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full px-4 py-2 border border-neutral-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-500"
+                  className="w-full px-4 py-2 border border-teal-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
                 />
                 <ErrorMessage
                   name="email"
@@ -98,7 +97,7 @@ export default function LoginPage() {
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-neutral-800 font-medium mb-1"
+                  className="block text-teal-700 font-medium mb-1"
                 >
                   Password
                 </label>
@@ -106,7 +105,7 @@ export default function LoginPage() {
                   type="password"
                   id="password"
                   name="password"
-                  className="w-full px-4 py-2 border border-neutral-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-500"
+                  className="w-full px-4 py-2 border border-teal-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
                 />
                 <ErrorMessage
                   name="password"
@@ -118,12 +117,13 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-2 bg-neutral-900 text-white font-semibold rounded-lg hover:bg-neutral-800 transition disabled:opacity-50"
+                className="w-full py-2 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition disabled:opacity-50"
               >
                 {isSubmitting ? "Logging In..." : "Log In"}
               </button>
+
               <Link to="/">
-                <button className="w-full py-2 bg-neutral-600 text-neutral-100 font-semibold rounded-lg hover:bg-neutral-400 hover:text-neutral-800  transition">
+                <button className="w-full py-2 bg-teal-200 text-teal-700 font-semibold rounded-lg hover:bg-teal-300 transition">
                   Home
                 </button>
               </Link>
@@ -131,11 +131,11 @@ export default function LoginPage() {
           )}
         </Formik>
 
-        <p className="mt-6 text-center text-neutral-800">
+        <p className="mt-6 text-center text-teal-700">
           Don’t have an account?
           <Link
             to="/register"
-            className="text-neutral-900 font-medium hover:underline"
+            className="text-teal-600 font-medium hover:underline ml-1"
           >
             Register
           </Link>

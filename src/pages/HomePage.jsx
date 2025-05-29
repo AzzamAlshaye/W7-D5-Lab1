@@ -1,33 +1,37 @@
-// src/components/HomePage.jsx
 import React from "react";
 import { Link } from "react-router";
+
 export default function HomePage() {
   return (
-    <main className="flex flex-col">
-      {/* Hero */}
-      <section className="relative bg-neutral-100 text-neutral-950 h-screen flex items-center justify-center px-6 lg:px-80">
+    <main className="min-h-screen bg-teal-50 flex flex-col">
+      {/* Hero Section */}
+      <section className="relative flex-1 bg-teal-50 text-teal-800 flex flex-col items-center justify-center px-6 lg:px-80 py-12">
         {/* Faded background logo */}
         <img
-          src="/logo.svg"
+          src="logo-theme.svg"
           alt="Logo background"
-          className="absolute inset-0 m-auto w-1/2 h-1/2 object-contain opacity-10 pointer-events-none"
+          className="absolute inset-0 m-auto w-2/3 h-2/3 object-contain opacity-10 pointer-events-none"
         />
 
         {/* Foreground content */}
         <div className="relative z-10 flex flex-col items-center space-y-6 text-center">
-          <h1 className="text-5xl font-bold ">The Characters API</h1>
-          <p className="text-lg max-w-2xl text-neutral-500">
-            This website showcases characters from all TV media, including their
-            names, images, and gender.
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
+            Welcome to the Characters API
+          </h1>
+          <p className="text-sm sm:text-base md:text-lg max-w-2xl text-teal-800">
+            Explore detailed profiles of your favorite TV characters—including
+            names, images, and gender—all in one place.
           </p>
           <Link
             to="/characters"
-            className="inline-block mt-4 bg-neutral-900 hover:bg-neutral-800 hover:text-neutral-100 text-neutral-200 font-semibold py-3 px-6 rounded-lg transition hover:scale-102"
+            className="inline-block mt-4 bg-teal-600 text-teal-100 font-semibold py-3 px-8 rounded-full shadow-lg transform transition duration-200 hover:scale-105 hover:bg-teal-50 hover:text-teal-700"
           >
             Check Characters
           </Link>
         </div>
       </section>
+
+      {/* Footer CTA or additional section can go here */}
     </main>
   );
 }

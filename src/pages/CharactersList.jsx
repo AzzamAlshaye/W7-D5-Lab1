@@ -1,4 +1,3 @@
-// src/pages/CharactersList.jsx
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { FiSearch, FiPlus, FiX, FiEdit, FiTrash } from "react-icons/fi";
@@ -142,7 +141,7 @@ export default function CharactersList() {
     }
     const toastId = toast(
       ({ closeToast }) => (
-        <div className="p-4">
+        <div className="p-4 bg-white rounded-lg">
           <p>
             Are you sure you want to delete <strong>{char.name}</strong>?
           </p>
@@ -165,7 +164,7 @@ export default function CharactersList() {
               Yes
             </button>
             <button
-              className="px-3 py-1 bg-gray-500 text-white rounded"
+              className="px-3 py-1 bg-teal-200 text-teal-700 rounded"
               onClick={() => toast.dismiss(toastId)}
             >
               No
@@ -183,8 +182,8 @@ export default function CharactersList() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-neutral-50">
-        <div className="w-16 h-16 border-4 border-neutral-800 border-t-transparent rounded-full animate-spin"></div>
+      <div className="flex justify-center items-center min-h-screen bg-teal-50">
+        <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -195,15 +194,15 @@ export default function CharactersList() {
   if (showMine) filtered = filtered.filter((c) => c.owner === userId);
 
   return (
-    <div className="min-h-screen bg-neutral-50 py-12 px-4">
+    <div className="min-h-screen bg-teal-50 py-12 px-4">
       <ToastContainer position="top-center" autoClose={3000} />
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <header className="text-center mb-10">
-          <h1 className="text-5xl font-extrabold text-neutral-900">
+          <h1 className="text-5xl font-extrabold text-teal-900">
             Character Gallery
           </h1>
-          <p className="mt-2 text-neutral-600">
+          <p className="mt-2 text-teal-700">
             {isAuth
               ? `Logged in as ${userEmail}`
               : "Please log in to add characters"}
@@ -213,11 +212,11 @@ export default function CharactersList() {
         {/* Controls */}
         <div className="flex flex-col sm:flex-row items-center justify-between mb-8 space-y-4 sm:space-y-0">
           <div className="relative w-full sm:w-1/3">
-            <FiSearch className="absolute top-1/2 left-3 transform -translate-y-1/2 text-neutral-400" />
+            <FiSearch className="absolute top-1/2 left-3 transform -translate-y-1/2 text-teal-400" />
             <input
               type="text"
               placeholder="Search characters..."
-              className="w-full pl-10 pr-10 py-2 bg-white border border-neutral-200 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-800 focus:border-transparent"
+              className="w-full pl-10 pr-10 py-2 bg-white border border-teal-200 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -225,20 +224,20 @@ export default function CharactersList() {
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setShowMine((v) => !v)}
-              className="flex items-center px-4 py-2 bg-neutral-800 text-white rounded-full shadow hover:bg-neutral-900 transition"
+              className="flex items-center px-4 py-2 bg-teal-600 text-white rounded-full shadow hover:bg-teal-700 transition"
             >
               {showMine ? "Show All" : "Show Mine"}
             </button>
             {showForm ? (
               <FiX
                 size={28}
-                className="cursor-pointer text-neutral-800 hover:text-neutral-600"
+                className="cursor-pointer text-teal-600 hover:text-teal-800"
                 onClick={handlePlusClick}
               />
             ) : (
               <FiPlus
                 size={28}
-                className={`cursor-pointer text-neutral-800 hover:text-neutral-600 ${
+                className={`cursor-pointer text-teal-600 hover:text-teal-800 ${
                   !isAuth ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 onClick={handlePlusClick}
@@ -253,14 +252,14 @@ export default function CharactersList() {
             ref={formRef}
             className="mb-16 bg-white rounded-xl shadow-lg p-8 mx-auto max-w-lg"
           >
-            <h2 className="text-2xl font-bold text-neutral-900 mb-6 text-center">
+            <h2 className="text-2xl font-bold text-teal-900 mb-6 text-center">
               {isEditing ? "Edit Character" : "Add New Character"}
             </h2>
             <div className="space-y-4">
               <input
                 type="text"
                 placeholder="Name"
-                className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-800"
+                className="w-full px-4 py-3 bg-teal-50 border border-teal-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
                 value={newCharacter.name}
                 onChange={(e) =>
                   setNewCharacter({ ...newCharacter, name: e.target.value })
@@ -269,14 +268,14 @@ export default function CharactersList() {
               <input
                 type="text"
                 placeholder="Image URL"
-                className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-800"
+                className="w-full px-4 py-3 bg-teal-50 border border-teal-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
                 value={newCharacter.image}
                 onChange={(e) =>
                   setNewCharacter({ ...newCharacter, image: e.target.value })
                 }
               />
               <select
-                className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-800"
+                className="w-full px-4 py-3 bg-teal-50 border border-teal-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
                 value={newCharacter.gender}
                 onChange={(e) =>
                   setNewCharacter({ ...newCharacter, gender: e.target.value })
@@ -288,7 +287,7 @@ export default function CharactersList() {
               <input
                 type="text"
                 placeholder="World"
-                className="w-full px-4 py-3 bg-neutral-50 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-800"
+                className="w-full px-4 py-3 bg-teal-50 border border-teal-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
                 value={newCharacter.world}
                 onChange={(e) =>
                   setNewCharacter({ ...newCharacter, world: e.target.value })
@@ -299,8 +298,8 @@ export default function CharactersList() {
                 disabled={submitting}
                 className={`w-full py-3 text-white font-semibold rounded-lg transition ${
                   submitting
-                    ? "bg-neutral-500 cursor-not-allowed"
-                    : "bg-neutral-800 hover:bg-neutral-900"
+                    ? "bg-teal-300 cursor-not-allowed"
+                    : "bg-teal-600 hover:bg-teal-700"
                 }`}
               >
                 {submitting
@@ -331,14 +330,14 @@ export default function CharactersList() {
                   />
                 </div>
                 <div className="p-5 text-center">
-                  <h3 className="text-xl font-semibold text-neutral-900">
+                  <h3 className="text-xl font-semibold text-teal-900">
                     {char.name}
                   </h3>
                   <span
                     className={`inline-block mt-2 px-3 py-1 text-sm font-medium rounded-full ${
                       char.gender === "male"
-                        ? "bg-neutral-200 text-neutral-800"
-                        : "bg-neutral-700 text-white"
+                        ? "bg-teal-200 text-teal-800"
+                        : "bg-teal-600 text-white"
                     } flex items-center justify-center`}
                   >
                     {char.gender === "male" ? (
@@ -349,7 +348,7 @@ export default function CharactersList() {
                     {char.gender}
                   </span>
                   {char.world && (
-                    <p className="mt-2 text-neutral-600 flex items-center justify-center space-x-1">
+                    <p className="mt-2 text-teal-700 flex items-center justify-center space-x-1">
                       <BiWorld />
                       <span>{char.world}</span>
                     </p>
@@ -358,12 +357,12 @@ export default function CharactersList() {
                     <div className="flex justify-center space-x-4 mt-4">
                       <FiEdit
                         size={20}
-                        className="cursor-pointer text-neutral-800 hover:text-yellow-800 transition"
+                        className="cursor-pointer text-teal-800 hover:text-yellow-800 transition"
                         onClick={() => handleEdit(char)}
                       />
                       <FiTrash
                         size={20}
-                        className="cursor-pointer text-neutral-800 hover:text-red-600"
+                        className="cursor-pointer text-teal-800 hover:text-red-600 transition"
                         onClick={() => handleDelete(char)}
                       />
                     </div>
@@ -373,7 +372,7 @@ export default function CharactersList() {
             ))}
           </div>
         ) : (
-          <p className="text-center text-neutral-800 text-lg mt-12">
+          <p className="text-center text-teal-800 text-lg mt-12">
             Oops! No characters found.
           </p>
         )}

@@ -10,6 +10,9 @@ export default function Profile() {
   const userId = localStorage.getItem("userId");
   const navigate = useNavigate();
 
+  const [auth, setAuth] = useState(
+    localStorage.getItem("isAuthenticated") === "true"
+  );
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -26,21 +29,13 @@ export default function Profile() {
       setLoading(false);
       return;
     }
-
     axios
       .get(`${API_URL}/${userId}`)
       .then((res) => {
         const { fullName, email, password, UserImage } = res.data;
-        setFormData({
-          fullName,
-          email,
-          password,
-          UserImage: UserImage || "",
-        });
+        setFormData({ fullName, email, password, UserImage: UserImage || "" });
       })
-      .catch(() => {
-        toast.error("Failed to load profile.");
-      })
+      .catch(() => toast.error("Failed to load profile."))
       .finally(() => setLoading(false));
   }, [userId]);
 
@@ -53,38 +48,71 @@ export default function Profile() {
     e.preventDefault();
     setSubmitting(true);
 
-    let imageURL = formData.UserImage.trim();
-    if (!imageURL) {
-      imageURL = "User_profile.svg";
-    } else {
-      try {
-        new URL(imageURL);
-      } catch {
-        toast.error("Please enter a valid URL for the profile image.");
-        setSubmitting(false);
-        return;
-      }
+    let imageURL = formData.UserImage.trim() || "User_profile.svg";
+    try {
+      new URL(imageURL);
+    } catch {
+      toast.error("Please enter a valid URL for the profile image.");
+      setSubmitting(false);
+      return;
     }
 
-    const payload = { ...formData, UserImage: imageURL };
-
     axios
-      .put(`${API_URL}/${userId}`, payload)
+      .put(`${API_URL}/${userId}`, { ...formData, UserImage: imageURL })
       .then((res) => {
         const { fullName, email, UserImage } = res.data;
         localStorage.setItem("fullName", fullName);
         localStorage.setItem("email", email);
         localStorage.setItem("UserImage", UserImage);
-
         window.dispatchEvent(new Event("userProfileUpdated"));
-
         toast.success("Profile updated successfully!");
         navigate("/profile");
       })
-      .catch(() => {
-        toast.error("Failed to update profile.");
-      })
+      .catch(() => toast.error("Failed to update profile."))
       .finally(() => setSubmitting(false));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("fullName");
+    localStorage.removeItem("email");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("UserImage");
+    setAuth(false);
+    toast.info("You have been logged out.", { autoClose: 2000 });
+    navigate("/");
+  };
+
+  const confirmLogout = () => {
+    const id = toast.info(
+      ({ closeToast }) => (
+        <div className="space-y-2">
+          <p>Are you sure you want to logout?</p>
+          <div className="flex justify-end space-x-2">
+            <button
+              onClick={() => {
+                handleLogout();
+                toast.dismiss(id);
+              }}
+              className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+            >
+              Yes
+            </button>
+            <button
+              onClick={() => toast.dismiss(id)}
+              className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400"
+            >
+              No
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        autoClose: false,
+        closeOnClick: false,
+        closeButton: false,
+      }
+    );
   };
 
   if (loading) {
@@ -98,11 +126,16 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-teal-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div className="px-6 py-4 bg-gradient-to-r from-teal-500 to-teal-600">
-          <h2 className="text-center text-white text-2xl font-semibold">
-            Edit Profile
-          </h2>
+        <div className="px-6 py-4 bg-gradient-to-r from-teal-500 to-teal-600 flex items-center justify-between">
+          <h2 className="text-white text-2xl font-semibold">Edit Profile</h2>
+          <button
+            onClick={confirmLogout}
+            className="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg text-sm"
+          >
+            Logout
+          </button>
         </div>
+
         <div className="px-6 py-6">
           <ToastContainer
             position="top-center"
@@ -125,6 +158,7 @@ export default function Profile() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Full Name */}
             <div>
               <label className="block mb-1 text-sm font-medium text-gray-700">
                 Full Name
@@ -139,6 +173,7 @@ export default function Profile() {
               />
             </div>
 
+            {/* Email */}
             <div>
               <label className="block mb-1 text-sm font-medium text-gray-700">
                 Email
@@ -153,6 +188,7 @@ export default function Profile() {
               />
             </div>
 
+            {/* Password */}
             <div className="relative">
               <label className="block mb-1 text-sm font-medium text-gray-700">
                 Password
@@ -174,6 +210,7 @@ export default function Profile() {
               </button>
             </div>
 
+            {/* Profile Image URL */}
             <div>
               <label className="block mb-1 text-sm font-medium text-gray-700">
                 Profile Image URL
@@ -188,16 +225,15 @@ export default function Profile() {
               />
             </div>
 
+            {/* Submit */}
             <button
               type="submit"
               disabled={submitting}
-              className={`w-full py-2 rounded-lg text-white transition-all duration-200 
-                ${
-                  submitting
-                    ? "bg-teal-300 cursor-not-allowed"
-                    : "bg-teal-600 hover:bg-teal-700"
-                }
-              `}
+              className={`w-full py-2 rounded-lg text-white transition-all duration-200 ${
+                submitting
+                  ? "bg-teal-300 cursor-not-allowed"
+                  : "bg-teal-600 hover:bg-teal-700"
+              }`}
             >
               {submitting ? "Updating…" : "Update Profile"}
             </button>
