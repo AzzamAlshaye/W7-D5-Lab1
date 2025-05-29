@@ -53,7 +53,6 @@ export default function Profile() {
     e.preventDefault();
     setSubmitting(true);
 
-    // Default to placeholder SVG if empty, otherwise validate URL
     let imageURL = formData.UserImage.trim();
     if (!imageURL) {
       imageURL = "User_profile.svg";
@@ -90,110 +89,121 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-48">
-        <p className="text-gray-500">Loading profile…</p>
+      <div className="flex items-center justify-center min-h-screen bg-teal-50">
+        <p className="text-teal-600 animate-pulse">Loading profile…</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded shadow relative">
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        pauseOnHover
-        draggable
-      />
-
-      <h2 className="text-2xl font-semibold mb-4 text-center">Edit Profile</h2>
-
-      {/* Profile Image Preview */}
-      {formData.UserImage && (
-        <div className="flex justify-center mb-4">
-          <img
-            src={formData.UserImage}
-            alt="User avatar"
-            className="w-24 h-24 rounded-full object-contain border"
-          />
+    <div className="min-h-screen bg-teal-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="px-6 py-4 bg-gradient-to-r from-teal-500 to-teal-600">
+          <h2 className="text-center text-white text-2xl font-semibold">
+            Edit Profile
+          </h2>
         </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Full Name */}
-        <div>
-          <label className="block mb-1 font-medium">Full Name</label>
-          <input
-            type="text"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
-            required
+        <div className="px-6 py-6">
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            pauseOnHover
+            draggable
           />
-        </div>
 
-        {/* Email */}
-        <div>
-          <label className="block mb-1 font-medium">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
-            required
-          />
-        </div>
+          {formData.UserImage && (
+            <div className="flex justify-center mb-6">
+              <img
+                src={formData.UserImage}
+                alt="User avatar"
+                className="w-24 h-24 rounded-full object-contain border-2 border-teal-200"
+              />
+            </div>
+          )}
 
-        {/* Password with toggle */}
-        <div className="relative">
-          <label className="block mb-1 font-medium">Password</label>
-          <input
-            type={showPassword ? "text" : "password"}
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full border px-3 py-2 rounded pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword((v) => !v)}
-            className="absolute inset-y-0 right-0 top-7 flex items-center px-3 text-gray-500 hover:text-gray-700"
-          >
-            {showPassword ? <FiEye size={20} /> : <FiEyeOff size={20} />}
-          </button>
-        </div>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block mb-1 text-sm font-medium text-gray-700">
+                Full Name
+              </label>
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border border-teal-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+              />
+            </div>
 
-        {/* Profile Image URL */}
-        <div>
-          <label className="block mb-1 font-medium">Profile Image URL</label>
-          <input
-            type="text"
-            name="UserImage"
-            value={formData.UserImage}
-            onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
-            placeholder="https://… or User_profile.svg"
-          />
-        </div>
+            <div>
+              <label className="block mb-1 text-sm font-medium text-gray-700">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border border-teal-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+              />
+            </div>
 
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={submitting}
-          className={`w-full py-2 rounded text-white ${
-            submitting
-              ? "bg-blue-300 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
-          }`}
-        >
-          {submitting ? "Updating…" : "Update Profile"}
-        </button>
-      </form>
+            <div className="relative">
+              <label className="block mb-1 text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border border-teal-200 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-teal-400"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                className="absolute inset-y-0 right-3 top-8 flex items-center text-teal-500 hover:text-teal-700"
+              >
+                {showPassword ? <FiEye size={20} /> : <FiEyeOff size={20} />}
+              </button>
+            </div>
+
+            <div>
+              <label className="block mb-1 text-sm font-medium text-gray-700">
+                Profile Image URL
+              </label>
+              <input
+                type="text"
+                name="UserImage"
+                value={formData.UserImage}
+                onChange={handleChange}
+                placeholder="https://… or User_profile.svg"
+                className="w-full px-4 py-2 border border-teal-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className={`w-full py-2 rounded-lg text-white transition-all duration-200 
+                ${
+                  submitting
+                    ? "bg-teal-300 cursor-not-allowed"
+                    : "bg-teal-600 hover:bg-teal-700"
+                }
+              `}
+            >
+              {submitting ? "Updating…" : "Update Profile"}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
