@@ -1,8 +1,8 @@
-// src/components/Profile.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Profile() {
@@ -18,6 +18,7 @@ export default function Profile() {
   });
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // ← new
 
   useEffect(() => {
     if (!userId) {
@@ -25,6 +26,7 @@ export default function Profile() {
       setLoading(false);
       return;
     }
+
     axios
       .get(`${API_URL}/${userId}`)
       .then((res) => {
@@ -54,11 +56,10 @@ export default function Profile() {
         localStorage.setItem("email", email);
         localStorage.setItem("UserImage", UserImage);
 
-        // dispatch our custom event:
         window.dispatchEvent(new Event("userProfileUpdated"));
 
         toast.success("Profile updated successfully!");
-        navigate("/profile"); // or wherever
+        navigate("/profile");
       })
       .catch(() => {
         toast.error("Failed to update profile.");
@@ -75,8 +76,30 @@ export default function Profile() {
   }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded shadow">
-      <h2 className="text-2xl font-semibold mb-4">Edit Profile</h2>
+    <div className="max-w-md mx-auto p-6 bg-white rounded shadow relative">
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
+
+      <h2 className="text-2xl font-semibold mb-4 text-center">Edit Profile</h2>
+
+      {/* Profile Image Preview */}
+      {formData.UserImage && (
+        <div className="flex justify-center mb-4">
+          <img
+            src={formData.UserImage}
+            alt="User avatar"
+            className="w-24 h-24 rounded-full object-contain border"
+          />
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Full Name */}
         <div>
@@ -104,20 +127,27 @@ export default function Profile() {
           />
         </div>
 
-        {/* Password */}
-        <div>
+        {/* Password with toggle */}
+        <div className="relative">
           <label className="block mb-1 font-medium">Password</label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"} // ← toggles type
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className="w-full border px-3 py-2 rounded pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
+          <button
+            type="button"
+            onClick={() => setShowPassword((v) => !v)}
+            className="absolute inset-y-0 right-0 top-7 flex items-center px-3 text-gray-500 hover:text-gray-700"
+          >
+            {showPassword ? <FiEye size={20} /> : <FiEyeOff size={20} />}
+          </button>
         </div>
 
-        {/* UserImage URL */}
+        {/* Profile Image URL */}
         <div>
           <label className="block mb-1 font-medium">Profile Image URL</label>
           <input

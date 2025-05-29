@@ -93,7 +93,7 @@ export default function Navbar() {
                 <img
                   src={UserImage}
                   alt="Profile"
-                  className="h-10 rounded-full object-cover"
+                  className="w-10 h-10 rounded-full object-contain border"
                 />
               </Link>
               {/* your logout button if you re-enable it */}
@@ -160,7 +160,7 @@ export default function Navbar() {
               <img
                 src={UserImage}
                 alt="Profile"
-                className="h-10 rounded-full"
+                className="  w-10 h-10 rounded-full object-cover  border-2 border-gray-200 shadow-sm"
               />
             </>
           )}
