@@ -72,15 +72,6 @@ export default function Footer() {
               info@CharactersAPI
             </a>
           </p>
-          <p>
-            <strong className="text-neutral-200">Support:&nbsp;</strong>
-            <a
-              href="mailto:support@CharactersAPI"
-              className="text-neutral-400 hover:text-neutral-200 transition focus:outline-none focus:underline"
-            >
-              support@CharactersAPI
-            </a>
-          </p>
         </div>
       </div>
 

@@ -10,6 +10,7 @@ export default function Navbar() {
 
   const [auth, setAuth] = useState(false);
   const [userName, setUserName] = useState("");
+  const [UserImage, setUserImage] = useState("");
 
   useEffect(() => {
     const isAuth = localStorage.getItem("isAuthenticated") === "true";
@@ -18,6 +19,10 @@ export default function Navbar() {
       const fullName = localStorage.getItem("fullName");
       setUserName(fullName || "");
     }
+    if (isAuth) {
+      const UserImage = localStorage.getItem("UserImage");
+      setUserImage(UserImage || "");
+    }
   }, []);
 
   const handleLogout = () => {
@@ -25,6 +30,7 @@ export default function Navbar() {
     localStorage.removeItem("fullName");
     localStorage.removeItem("email");
     localStorage.removeItem("userId");
+    localStorage.removeItem("image");
     setAuth(false);
     navigate("/login");
   };
@@ -73,15 +79,24 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <span className="block px-6 py-3 font-medium text-white">
-                {`Welcome, ${userName}`}
+              <span className="block  py-3 font-medium text-white">
+                {userName}
               </span>
-              <button
+              <Link to="/profile">
+                <img
+                  src={UserImage}
+                  class="img-fluid rounded-top"
+                  alt=""
+                  className="h-10"
+                />
+              </Link>
+
+              {/* <button
                 onClick={handleLogout}
                 className="block px-6 py-3 font-medium rounded-md text-white border border-white hover:bg-white hover:text-black"
               >
                 Logout
-              </button>
+              </button> */}
             </>
           )}
         </div>
@@ -144,9 +159,15 @@ export default function Navbar() {
           ) : (
             <>
               <span className="px-3 py-3 font-medium text-white">
-                {`Welcome, ${userName}`}
+                {userName}
               </span>
-              <button
+              <img
+                src={UserImage}
+                class="img-fluid rounded-top"
+                alt=""
+                className="h-10"
+              />
+              {/* <button
                 onClick={() => {
                   handleLogout();
                   setMenuOpen(false);
@@ -154,7 +175,7 @@ export default function Navbar() {
                 className="px-6 py-3 font-medium rounded-md text-white border border-white hover:bg-white hover:text-black"
               >
                 Logout
-              </button>
+              </button> */}
             </>
           )}
         </div>

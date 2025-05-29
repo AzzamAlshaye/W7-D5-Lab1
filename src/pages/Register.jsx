@@ -14,6 +14,7 @@ export default function Register() {
     email: "",
     password: "",
     confirmPassword: "",
+    UserImage: "User_profile.svg",
   };
 
   const validate = (values) => {

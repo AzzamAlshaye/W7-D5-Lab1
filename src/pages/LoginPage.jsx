@@ -39,6 +39,7 @@ export default function LoginPage() {
           localStorage.setItem("fullName", user.fullName);
           localStorage.setItem("email", user.email);
           localStorage.setItem("userId", user.id);
+          localStorage.setItem("UserImage", user.image);
 
           toast.success("Login successful! Redirecting to home…");
           setTimeout(() => navigate("/"), 3000);
