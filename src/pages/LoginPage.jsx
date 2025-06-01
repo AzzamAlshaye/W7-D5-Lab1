@@ -26,15 +26,17 @@ export default function LoginPage() {
     try {
       const resp = await axios.get(
         "https://68370703664e72d28e432cf6.mockapi.io/login",
-        { params: { id: values.id } }
+        { params: { email: values.email } }
       );
+
       const users = resp.data;
       if (users.length === 0) {
         toast.error("No account found with that email.");
       } else {
         const user = users[0];
-        if (user.password === values.password) {
+        if (user.password == values.password) {
           localStorage.setItem("isAuthenticated", "true");
+
           localStorage.setItem("fullName", user.fullName);
           localStorage.setItem("email", user.email);
           localStorage.setItem("userId", user.id);
@@ -43,11 +45,14 @@ export default function LoginPage() {
           toast.success("Login successful! Redirecting to home…");
           setTimeout(() => navigate("/"), 3000);
         } else {
+          console.log(error);
+
           toast.error("Incorrect password");
         }
       }
     } catch (error) {
       console.error(error);
+
       toast.error("Login failed. Please try again later.");
     } finally {
       setSubmitting(false);
